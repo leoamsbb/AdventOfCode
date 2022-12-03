@@ -6,7 +6,7 @@ import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import scala.io.Source
 
 
-class Day01_Test extends AnyFlatSpec {
+class Day01_Spec extends AnyFlatSpec {
   private val lines = Source.fromResource("day01/data/input").getLines().toSeq
 
   "Puzzle One" should "return correct number of calories for given input" in {
