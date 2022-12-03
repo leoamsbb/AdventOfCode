@@ -7,14 +7,13 @@ import scala.io.Source
 
 
 class Day01_Test extends AnyFlatSpec {
+  private val lines = Source.fromResource("day01/data/input").getLines().toSeq
 
   "Puzzle One" should "return correct number of calories for given input" in {
-    val lines = Source.fromResource("day01/data/input_one").getLines().toSeq
     One.run(lines) shouldBe 24000
   }
 
   "Puzzle Two" should "return correct number of calories for given input" in {
-    val lines = Source.fromResource("day01/data/input_one").getLines().toSeq
     Two.run(lines :+ "") shouldBe 45000
   }
 }

@@ -4,7 +4,7 @@ import util.InputReader.readInput
 
 object Main extends App {
 
-  private val input = readInput("day01/data/input_one")
+  private val input = readInput("day01/data/input")
   val opForFirstPuzzle = One.run(input)
   println(s"Output for first puzzle: $opForFirstPuzzle")
 
