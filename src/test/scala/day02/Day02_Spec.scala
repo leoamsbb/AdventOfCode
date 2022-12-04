@@ -7,6 +7,7 @@ import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import util.InputReader.readInput
 
 class Day02_Spec extends AnyFlatSpec {
+  private val day = "day02"
 
   "RPS" should "create correct objects given the input" in {
     fromString("A") shouldBe Rock
@@ -53,7 +54,7 @@ class Day02_Spec extends AnyFlatSpec {
     Win.getMyMove(Scissors) shouldBe Rock
   }
 
-  private val lines = readInput("day02/data/input")
+  private val lines = readInput(s"$day/data/input")
   "Puzzle One" should "return correct result" in {
     One.run(lines) shouldBe 15
   }

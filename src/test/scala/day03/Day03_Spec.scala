@@ -5,9 +5,10 @@ import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import util.InputReader.readInput
 
 class Day03_Spec extends AnyFlatSpec {
-  private val lines = readInput("day03/data/input")
+  private val day = "day03"
+  private val lines = readInput(s"$day/data/input")
 
-  "Day 03" should "split the input into two corresponding compartments" in {
+  day should "split the input into two corresponding compartments" in {
     val (comp1, comp2) = splitInput("vJrwpWtwJgWrhcsFMMfFFhFp")
     comp1 shouldBe "vJrwpWtwJgWr"
     comp2 shouldBe "hcsFMMfFFhFp"
