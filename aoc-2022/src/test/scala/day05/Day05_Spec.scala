@@ -1,6 +1,5 @@
 package day05
 
-import org.scalatest.Ignore
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers.{contain, have}
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
