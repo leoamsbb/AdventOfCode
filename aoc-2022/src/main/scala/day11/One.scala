@@ -10,7 +10,7 @@ object One {
       item <- 0 to monkey.items.size
     } {
       monkey.inspectItem()
-      val canThrow: Option[(Long, Int)] = monkey.testAndThrowTo()
+      val canThrow = monkey.testAndThrowTo()
       canThrow match {
         case Some(tuple) =>
           val (newWorryLevel, throwTo) = tuple
