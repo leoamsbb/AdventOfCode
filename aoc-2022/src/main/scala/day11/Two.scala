@@ -16,7 +16,7 @@ object Two {
       }
 
       monkey.inspectItemAndMonkeyIsNotBored()
-      val canThrow: Option[(Long, Int)] = monkey.testAndThrowTo()
+      val canThrow = monkey.testAndThrowTo()
       canThrow match {
         case Some(tuple) =>
           val (newWorryLevel, throwTo) = tuple
