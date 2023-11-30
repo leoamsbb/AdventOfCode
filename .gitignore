@@ -5,3 +5,8 @@
 /.idea/
 /project/project/target/
 /.bsp/
+/aoc-2023/project/target/
+.DS_Store
+/aoc-2023/target/
+/aoc-2023/.bsp/
+/aoc-2023/.idea/
