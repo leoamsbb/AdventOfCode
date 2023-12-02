@@ -1,21 +1,22 @@
 package day02
 
-import day02.Outcome.{getOutcome, outcomeFromStr}
-import day02.RPS.fromString
 
 object Two {
 
   def run(input: Seq[String]): Int = {
-    input.map(str => {
-      val Array(elfMove, intendedOutcome) = str.split(" ")
-      (fromString(elfMove), outcomeFromStr(intendedOutcome))
+    val games = input.filter(_.nonEmpty).map(Game.from)
+
+    def getCount = (game: Game, color: Color) => {
+      game.sets.flatMap(_.cubes.filter(_.color == color)).map(_.count).max
+    }
+
+    games.map(game => {
+      val maxRed = getCount(game, Red)
+      val maxGreen = getCount(game, Green)
+      val maxBlue = getCount(game, Blue)
+
+      maxRed * maxGreen * maxBlue
     })
-      .map {
-        case (elfMove, outcome) => (outcome.getMyMove(elfMove), outcome)
-      }
-      .foldLeft(0) { (acc, tuple2) =>
-        val (myMove, outcome) = tuple2
-        acc + myMove.points() + outcome.outcomePoints()
-      }
+      .sum
   }
 }

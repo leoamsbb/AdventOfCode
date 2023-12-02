@@ -1,65 +1,45 @@
 package day02
 
-import day02.Outcome.{getOutcome, outcomeFromStr}
-import day02.RPS.fromString
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import util.InputReader.readInput
 
+
 class Day02_Spec extends AnyFlatSpec {
   private val day = "day02"
+  private val lines = readInput(s"$day/data/input").filter(_.nonEmpty)
 
-  "RPS" should "create correct objects given the input" in {
-    fromString("A") shouldBe Rock
-    fromString("X") shouldBe Rock
-
-    fromString("B") shouldBe Paper
-    fromString("Y") shouldBe Paper
-
-    fromString("C") shouldBe Scissors
-    fromString("Z") shouldBe Scissors
+  "Game" should "be able to parse a String and return game object" in {
+    Game.from("Game 11:") shouldBe Game(11, List.empty)
+    Game.from("Game 15:") shouldBe Game(15, List.empty)
   }
 
-  "Outcome" should "create correct outcome given the object of RPS" in {
-    getOutcome(Rock, Scissors) shouldBe Lost
-    getOutcome(Scissors, Paper) shouldBe Lost
-    getOutcome(Paper, Rock) shouldBe Lost
-
-    getOutcome(Scissors, Rock) shouldBe Win
-    getOutcome(Paper, Scissors) shouldBe Win
-    getOutcome(Rock, Paper) shouldBe Win
-
-    getOutcome(Scissors, Scissors) shouldBe Draw
-    getOutcome(Rock, Rock) shouldBe Draw
-    getOutcome(Paper, Paper) shouldBe Draw
+  "Color" should "be able to parse a String and return color object" in {
+    Color.from("red") shouldBe Red
+    Color.from("blue") shouldBe Blue
+    Color.from("green") shouldBe Green
   }
 
-  it should "create correct outcome from input string" in {
-    outcomeFromStr("X") shouldBe Lost
-    outcomeFromStr("Y") shouldBe Draw
-    outcomeFromStr("Z") shouldBe Win
+  "Cube" should "be able to parse a String and return cube object" in {
+    Cube.from("1 red") shouldBe Cube(1, Red)
+    Cube.from("15  blue") shouldBe Cube(15, Blue)
+    Cube.from("4 Green") shouldBe Cube(4, Green)
   }
 
-  it should "create correct move depending on the Outcome and elfMove" in {
-    Lost.getMyMove(Rock) shouldBe Scissors
-    Lost.getMyMove(Scissors) shouldBe Paper
-    Lost.getMyMove(Paper) shouldBe Rock
-
-    Draw.getMyMove(Rock) shouldBe Rock
-    Draw.getMyMove(Paper) shouldBe Paper
-    Draw.getMyMove(Scissors) shouldBe Scissors
-
-    Win.getMyMove(Rock) shouldBe Paper
-    Win.getMyMove(Paper) shouldBe Scissors
-    Win.getMyMove(Scissors) shouldBe Rock
+  "Program" should "be able to parse a line and prepare set" in {
+    val line = "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green"
+    Game.from(line) shouldBe Game(1, List(
+      CubeSet(List(Cube(3, Blue), Cube(4, Red))),
+      CubeSet(List(Cube(1, Red), Cube(2, Green), Cube(6, Blue))),
+      CubeSet(List(Cube(2, Green)))
+    ))
   }
 
-  private val lines = readInput(s"$day/data/input")
   "Puzzle One" should "return correct result" in {
-    One.run(lines) shouldBe 15
+    One.run(lines) shouldBe 8
   }
 
   "Puzzle Two" should "return correct result" in {
-    Two.run(lines) shouldBe 12
+    Two.run(lines) shouldBe 2286
   }
 }

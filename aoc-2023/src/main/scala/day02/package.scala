@@ -1,78 +1,54 @@
+import scala.language.implicitConversions
+
 package object day02 {
 
-  sealed trait RPS {
-    def points(): Int
-  }
-
-  object RPS {
-    def fromString(input: String): RPS = input match {
-      case "A" | "X" => Rock
-      case "B" | "Y" => Paper
-      case "C" | "Z" => Scissors
-    }
-  }
-
-  case object Rock extends RPS {
-    override val points: Int = 1
-  }
-
-  case object Paper extends RPS {
-    override val points: Int = 2
-  }
-
-  case object Scissors extends RPS {
-    override val points: Int = 3
-  }
-
-  sealed trait Outcome {
-    def outcomePoints(): Int
-
-    def getMyMove(elfMove: RPS): RPS
-  }
-
-  object Outcome {
-    def outcomeFromStr(input: String): Outcome = {
+  case class Game(id: Int, sets: List[CubeSet] = List.empty)
+  object Game {
+    def from(input: String) : Game= {
       input match {
-        case "X" => Lost
-        case "Y" => Draw
-        case "Z" => Win
-      }
-    }
-    def getOutcome(elf1Move: RPS, myMove: RPS): Outcome = {
-      (elf1Move, myMove) match {
-        case (Scissors, Rock) => Win
-        case (Paper, Scissors) => Win
-        case (Rock, Paper) => Win
-        case (m1, m2) if m1 == m2 => Draw
-        case _ => Lost
+        case s"Game$id:$rest" =>
+          val sets = rest.trim.split(";").toList.filter(_.nonEmpty)
+          val cubeSets = sets.map(_.trim).map(CubeSet.from)
+          Game(id.trim.toInt, cubeSets)
+        case _ => throw new IllegalArgumentException("Case not matched in Game")
       }
     }
   }
 
-  case object Lost extends Outcome {
-    override val outcomePoints: Int = 0
-
-    override def getMyMove(elfMove: RPS): RPS = elfMove match {
-      case Rock => Scissors
-      case Paper => Rock
-      case Scissors => Paper
+  sealed trait Color
+  case object Red extends Color
+  case object Blue extends Color
+  case object Green extends Color
+  object Color {
+    def from(str: String): Color = str.toLowerCase match {
+      case "blue" =>  Blue
+      case "red" => Red
+      case "green" => Green
     }
   }
 
-  case object Draw extends Outcome {
-    override val outcomePoints: Int = 3
+  case class Cube(count: Int, color: Color)
+  object Cube {
+    def from(str: String): Cube = str match {
+      case s"$count $color" => Cube(count = count.trim.toInt, color = Color.from(color.trim))
+      case _ => throw new IllegalArgumentException("Case not matched in Cube")
+    }
 
-    override def getMyMove(elfMove: RPS): RPS = elfMove
-  }
-
-  case object Win extends Outcome {
-    override val outcomePoints: Int = 6
-
-    override def getMyMove(elfMove: RPS): RPS = elfMove match {
-      case Rock => Paper
-      case Paper => Scissors
-      case Scissors => Rock
+    def withinLimit(cube: Cube): Boolean = cube.color match {
+      case Red => cube.count <= 12
+      case Blue => cube.count <= 14
+      case Green => cube.count <= 13
     }
   }
 
+  case class CubeSet(cubes: List[Cube])
+  object CubeSet {
+    def from(string: String) : CubeSet = {
+      val cubes = string.trim.split(",").toList
+      CubeSet(
+        cubes
+        .map(_.trim)
+        .map(Cube.from))
+    }
+  }
 }
